@@ -1,0 +1,20 @@
+.container{
+    width: 100%;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.circle{
+    height: 25px;
+  width: 25px;
+  background-color: rgb(148, 148, 148);
+  border-radius: 50%;
+  display: inline-block;
+}
+.circles{
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+}

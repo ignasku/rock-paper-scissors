@@ -1,5 +1,6 @@
 let playerScore = 0;
 let computerScore = 0;
+let roundNumber = 0;
 
 function computerPlay() {
     let computerChoices = ["rock", "paper", "scissors"];
@@ -7,35 +8,97 @@ function computerPlay() {
     return computerChoice;
 }
 
-function playRound(playerSelection, computerSelection) {
-    let roundResult;
-
-    if (playerSelection == computerSelection) {
-        roundResult = "TIE";
-    } else if (playerSelection == "rock" && computerSelection == "paper") {
-        roundResult = "COMPUTER WINS";
-        computerScore++;
-    } else if (playerSelection == "rock" && computerSelection == "scissors") {
-        roundResult = "PLAYER WINS";
-        playerScore++;
-    } else if (playerSelection == "paper" && computerSelection == "scissors") {
-        roundResult = " COMPUTER WINS";
-        computerScore++;
-    } else if (playerSelection == "paper" && computerSelection == "rock") {
-        roundResult = "PLAYER WINS";
-        playerScore++;
-    } else if (playerSelection == "scissors" && computerSelection == "rock") {
-        roundResult = "COMPUTER WINS";
-        computerScore++;
-    } else if (playerSelection == "scissors" && computerSelection == "paper") {
-        roundResult = "PLAYER WINS";
-        playerScore++;
+function finalResult(playerScore, computerScore){
+    let finalResult = "";
+    if(playerScore == computerScore){
+        finalResult = "TIE!";
     }
-    return roundResult;
+    else if(playerScore > computerScore){
+        finalResult = "YOU WIN!";
+    }
+    else{
+        finalResult = "YOU LOSE!";
+    }
+    return finalResult;
 }
 
-const playerSelection = 'rock';
-const computerSelection = computerPlay();
-//var result = computerPlay();
-console.log(computerSelection);
-console.log(playRound(playerSelection, computerSelection));
+
+
+
+function playRound(playerSelection, computerSelection) {
+    if(playerSelection == computerSelection){
+        return "tie";
+    }
+    else if(playerSelection == "rock" && computerSelection == "scissors" ||
+    playerSelection == "paper" && computerSelection == "rock" ||
+    playerSelection == "scissors" && computerSelection == "paper"){
+        return "playerWins";
+    }
+    else{
+        return "computerWins";
+    }
+}
+
+function startGame(playerSelection){
+    if(roundNumber == 5){
+        roundNumber = 1;
+        playerScore = 0;
+        computerScore = 0;
+
+        finalEndResult.textContent = "";
+    }
+    else{
+        roundNumber++;
+    }
+
+    currentRound.textContent = `Round ${roundNumber}`;
+
+    let computerSelection = computerPlay();
+
+    let result = playRound(playerSelection, computerSelection);
+
+    if(result == "tie"){
+        playerNewScore.textContent = playerScore;
+        computerNewScore.textContent = computerScore;
+        roundResult.textContent = "TIE!";
+    }
+    else if(result == "playerWins"){
+        playerScore++;
+        playerNewScore.textContent = playerScore;
+        computerNewScore.textContent = computerScore;
+        roundResult.textContent = "PLAYER WINS!"
+    }
+    else{
+        computerScore++;
+        playerNewScore.textContent = playerScore;
+        computerNewScore.textContent = computerScore;
+        roundResult.textContent = "COMPUTER WINS!"
+    }
+
+    if(roundNumber == 5){
+        finalEndResult.textContent = finalResult(playerScore, computerScore);
+    }
+}
+
+
+
+
+const roundResult = document.querySelector('#round-result');
+const playerNewScore = document.querySelector('#player-score');
+const computerNewScore = document.querySelector('#computer-score');
+const rockButton = document.querySelector('#rock-button');
+const paperButton = document.querySelector('#paper-button');
+const scissorsButton = document.querySelector('#scissors-button');
+const currentRound = document.querySelector('#round-number');
+const finalEndResult = document.querySelector('#final-result')
+
+rockButton.addEventListener("click", () =>{
+    startGame("rock");
+})
+
+paperButton.addEventListener("click", () =>{
+    startGame("paper");
+})
+scissorsButton.addEventListener("click", () =>{
+    startGame("scissors");
+})
