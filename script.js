@@ -1,104 +1,74 @@
+const rounds = document.querySelectorAll(".round");
+const resultDiv = document.getElementById("result");
+const playAgainButton = document.getElementById("playAgain");
+
 let playerScore = 0;
 let computerScore = 0;
-let roundNumber = 0;
+let roundCount = 0;
+
+const choices = ["rock", "paper", "scissors"];
 
 function computerPlay() {
-    let computerChoices = ["rock", "paper", "scissors"];
-    let computerChoice = computerChoices[Math.floor(Math.random() * computerChoices.length)];
-    return computerChoice;
+  const randomIndex = Math.floor(Math.random() * 3);
+  return choices[randomIndex];
 }
 
-function finalResult(playerScore, computerScore){
-    let finalResult = "";
-    if(playerScore == computerScore){
-        finalResult = "TIE!";
-    }
-    else if(playerScore > computerScore){
-        finalResult = "YOU WIN!";
-    }
-    else{
-        finalResult = "YOU LOSE!";
-    }
-    return finalResult;
+function playRound(playerChoice) {
+  const computerChoice = computerPlay();
+  const result = getResult(playerChoice, computerChoice);
+
+  updateUI(result);
 }
 
-
-
-
-function playRound(playerSelection, computerSelection) {
-    if(playerSelection == computerSelection){
-        return "tie";
-    }
-    else if(playerSelection == "rock" && computerSelection == "scissors" ||
-    playerSelection == "paper" && computerSelection == "rock" ||
-    playerSelection == "scissors" && computerSelection == "paper"){
-        return "playerWins";
-    }
-    else{
-        return "computerWins";
-    }
+function getResult(playerChoice, computerChoice) {
+  if (playerChoice === computerChoice) {
+    return "tie";
+  } else if (
+    (playerChoice === "rock" && computerChoice === "scissors") ||
+    (playerChoice === "paper" && computerChoice === "rock") ||
+    (playerChoice === "scissors" && computerChoice === "paper")
+  ) {
+    playerScore++;
+    return "win";
+  } else {
+    computerScore++;
+    return "lose";
+  }
 }
 
-function startGame(playerSelection){
-    if(roundNumber == 5){
-        roundNumber = 1;
-        playerScore = 0;
-        computerScore = 0;
+function updateUI(result) {
+  rounds[roundCount].style.backgroundColor =
+    result === "win" ? "green" : result === "lose" ? "red" : "gray";
+  roundCount++;
 
-        finalEndResult.textContent = "";
-    }
-    else{
-        roundNumber++;
-    }
-
-    currentRound.textContent = `Round ${roundNumber}`;
-
-    let computerSelection = computerPlay();
-
-    let result = playRound(playerSelection, computerSelection);
-
-    if(result == "tie"){
-        playerNewScore.textContent = playerScore;
-        computerNewScore.textContent = computerScore;
-        roundResult.textContent = "TIE!";
-    }
-    else if(result == "playerWins"){
-        playerScore++;
-        playerNewScore.textContent = playerScore;
-        computerNewScore.textContent = computerScore;
-        roundResult.textContent = "PLAYER WINS!"
-    }
-    else{
-        computerScore++;
-        playerNewScore.textContent = playerScore;
-        computerNewScore.textContent = computerScore;
-        roundResult.textContent = "COMPUTER WINS!"
-    }
-
-    if(roundNumber == 5){
-        finalEndResult.textContent = finalResult(playerScore, computerScore);
-    }
+  if (roundCount === 5) {
+    displayResult();
+  }
 }
 
+function displayResult() {
+  let finalResult;
+  if (playerScore > computerScore) {
+    finalResult = "You won!";
+  } else if (playerScore < computerScore) {
+    finalResult = "You lost!";
+  } else {
+    finalResult = "It's a tie!";
+  }
 
+  resultDiv.textContent = finalResult;
+  playAgainButton.style.display = "block";
+}
 
+function resetGame() {
+  playerScore = 0;
+  computerScore = 0;
+  roundCount = 0;
 
-const roundResult = document.querySelector('#round-result');
-const playerNewScore = document.querySelector('#player-score');
-const computerNewScore = document.querySelector('#computer-score');
-const rockButton = document.querySelector('#rock-button');
-const paperButton = document.querySelector('#paper-button');
-const scissorsButton = document.querySelector('#scissors-button');
-const currentRound = document.querySelector('#round-number');
-const finalEndResult = document.querySelector('#final-result')
+  rounds.forEach((round) => {
+    round.style.backgroundColor = "lightgray";
+  });
 
-rockButton.addEventListener("click", () =>{
-    startGame("rock");
-})
-
-paperButton.addEventListener("click", () =>{
-    startGame("paper");
-})
-scissorsButton.addEventListener("click", () =>{
-    startGame("scissors");
-})
+  resultDiv.textContent = "";
+  playAgainButton.style.display = "none";
+}

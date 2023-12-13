@@ -1,20 +1,70 @@
-.container{
-    width: 100%;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
+body {
+  font-family: "Arial", sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  margin: 0;
 }
 
-.circle{
-    height: 25px;
-  width: 25px;
-  background-color: rgb(148, 148, 148);
-  border-radius: 50%;
-  display: inline-block;
+.container {
+  text-align: center;
+  position: relative;
 }
-.circles{
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
+
+.unclip-container {
+  position: relative;
+  z-index: 1;
+}
+
+#rounds {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.round {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: lightgray;
+  margin: 0 5px;
+}
+
+.tie {
+  background-color: lightblue;
+}
+
+.result-container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, 0);
+  width: 100%;
+  margin-top: 55px;
+}
+
+#result {
+  font-size: 18px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+#choices {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+#choices button {
+  margin: 0 10px;
+  padding: 10px;
+  font-size: 16px;
+}
+
+#playAgain {
+  display: block;
+  margin: 20px auto;
+  padding: 10px;
+  font-size: 16px;
 }
